@@ -22,6 +22,12 @@ public class User {                     // No Banco de Dados:
         this.locados = new LinkedList<>();
     }
 
+    public User(String id, String email, String username) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+    }
+
     public String getId() {
         return id;
     }
