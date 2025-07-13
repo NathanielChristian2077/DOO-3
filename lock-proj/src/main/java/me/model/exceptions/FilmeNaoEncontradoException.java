@@ -1,7 +1,7 @@
 package me.model.exceptions;
 
-public class FilmeNaoEncontradoException extends Exception {
-    public FilmeNaoEncontradoException (String msg) {
+public class FilmeNaoEncontradoException extends RuntimeException {
+    public FilmeNaoEncontradoException(String msg) {
         super(msg);
     }
 }

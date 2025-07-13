@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoBD {
-    private static final String URL = "jdbc:postgresql://localhost:5432/locadora_db";
+    private static final String URL = "jdbc:postgresql://localhost:5432/doo3_locadora";
     private static final String USUARIO = "postgres";
     private static final String SENHA = "1234";
 

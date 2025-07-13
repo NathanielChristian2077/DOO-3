@@ -8,17 +8,18 @@ import java.util.Set;
 import java.util.UUID;
 
 import me.model.entidades.Filme;
+import me.model.enums.*;
 
 public class DAOFilme {
-    private String generosToString(Set<me.model.enums.Genero> generos) {
+    private String generosToString(Set<Genero> generos) {
         return String.join(",", generos.stream().map(Enum::name).toList());
     }
 
-    private Set<me.model.enums.Genero> stringToGeneros(String str) {
-        Set<me.model.enums.Genero> generos = new java.util.HashSet<>();
+    public Set<Genero> stringToGeneros(String str) {
+        Set<Genero> generos = new java.util.HashSet<>();
         if (str != null && !str.isEmpty()) {
             for (String s : str.split(",")) {
-                generos.add(me.model.enums.Genero.valueOf(s.trim()));
+                generos.add(Genero.valueOf(s.trim()));
             }
         }
         return generos;
@@ -79,7 +80,7 @@ public class DAOFilme {
                         rs.getString("descricao"),
                         java.time.Duration.ofMinutes(rs.getInt("duracao")),
                         rs.getBigDecimal("preco"),
-                        me.model.enums.Qualidade.valueOf(rs.getString("qualidade")),
+                        Qualidade.valueOf(rs.getString("qualidade")),
                         stringToGeneros(rs.getString("genero"))
                     );
                     filmes.add(f);
@@ -102,7 +103,7 @@ public class DAOFilme {
                     rs.getString("descricao"),
                     java.time.Duration.ofMinutes(rs.getInt("duracao")),
                     rs.getBigDecimal("preco"),
-                    me.model.enums.Qualidade.valueOf(rs.getString("qualidade")),
+                    Qualidade.valueOf(rs.getString("qualidade")),
                     stringToGeneros(rs.getString("genero"))
                 );
                 filmes.add(f);
@@ -125,7 +126,7 @@ public class DAOFilme {
                         rs.getString("descricao"),
                         java.time.Duration.ofMinutes(rs.getInt("duracao")),
                         rs.getBigDecimal("preco"),
-                        me.model.enums.Qualidade.valueOf(rs.getString("qualidade")),
+                        Qualidade.valueOf(rs.getString("qualidade")),
                         stringToGeneros(rs.getString("genero"))
                     );
                     filmes.add(f);

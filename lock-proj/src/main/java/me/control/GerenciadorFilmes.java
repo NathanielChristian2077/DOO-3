@@ -2,10 +2,9 @@ package me.control;
 
 import me.model.entidades.Filme;
 import me.model.entidades.User;
-import me.model.exceptions.PermissaoNegadaException;
+import me.model.exceptions.*;
 import me.model.persistencia.DAOFilme;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class GerenciadorFilmes {
@@ -15,36 +14,65 @@ public class GerenciadorFilmes {
         this.daoFilme = new DAOFilme();
     }
 
-    public void cadastrarFilme(User solicitante, Filme filme) throws SQLException {
-        if (!solicitante.isAdmin()) {
+    public void cadastrarFilme(User solicitante, Filme filme) {
+        if (solicitante == null || !solicitante.isAdmin()) {
             throw new PermissaoNegadaException("Apenas administradores podem cadastrar filmes.");
         }
-        daoFilme.cadastrarFilme(filme);
+        if (filme == null) throw new DadosInvalidosException("Filme inválido.");
+        try {
+            daoFilme.cadastrarFilme(filme);
+        } catch (Exception e) {
+            throw new OperacaoBancoException("Erro ao cadastrar filme.", e);
+        }
     }
 
-    public boolean editarFilme(User solicitante, Filme filme) throws SQLException {
-        if (!solicitante.isAdmin()) {
+    public boolean editarFilme(User solicitante, Filme filme) {
+        if (solicitante == null || !solicitante.isAdmin()) {
             throw new PermissaoNegadaException("Apenas administradores podem editar filmes.");
         }
-        return daoFilme.editarFilme(filme);
+        if (filme == null) throw new DadosInvalidosException("Filme inválido.");
+        try {
+            return daoFilme.editarFilme(filme);
+        } catch (Exception e) {
+            throw new OperacaoBancoException("Erro ao editar filme.", e);
+        }
     }
 
-    public boolean deletarFilme(User solicitante, Filme filme) throws SQLException {
-        if (!solicitante.isAdmin()) {
+    public boolean deletarFilme(User solicitante, Filme filme) {
+        if (solicitante == null || !solicitante.isAdmin()) {
             throw new PermissaoNegadaException("Apenas administradores podem deletar filmes.");
         }
-        return daoFilme.deletarFilme(filme);
+        if (filme == null) throw new DadosInvalidosException("Filme inválido.");
+        try {
+            return daoFilme.deletarFilme(filme);
+        } catch (Exception e) {
+            throw new OperacaoBancoException("Erro ao deletar filme.", e);
+        }
     }
 
-    public List<Filme> buscarPorNome(String nome) throws SQLException {
-        return daoFilme.buscarPorNome(nome);
+    public List<Filme> buscarPorNome(String nome) {
+        if (nome == null || nome.isBlank()) throw new DadosInvalidosException("Nome inválido.");
+        try {
+            return daoFilme.buscarPorNome(nome);
+        } catch (Exception e) {
+            throw new OperacaoBancoException("Erro ao buscar filme por nome.", e);
+        }
     }
 
-    public List<Filme> listarFilmes() throws SQLException {
-        return daoFilme.listarFilmes();
+    public List<Filme> listarFilmes() {
+        try {
+            return daoFilme.listarFilmes();
+        } catch (Exception e) {
+            throw new OperacaoBancoException("Erro ao listar filmes.", e);
+        }
     }
 
-    public List<Filme> filtrarFilmes(String filtro, String valor) throws SQLException {
-        return daoFilme.filtrarFilmes(filtro, valor);
+    public List<Filme> filtrarFilmes(String filtro, String valor) {
+        if (filtro == null || filtro.isBlank() || valor == null) throw new DadosInvalidosException("Filtro/valor inválido.");
+        try {
+            return daoFilme.filtrarFilmes(filtro, valor);
+        } catch (Exception e) {
+            throw new OperacaoBancoException("Erro ao filtrar filmes.", e);
+        }
     }
 }

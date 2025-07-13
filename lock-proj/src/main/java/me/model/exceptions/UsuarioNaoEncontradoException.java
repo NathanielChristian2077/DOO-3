@@ -1,7 +1,7 @@
 package me.model.exceptions;
 
-public class UsuarioNaoEncontradoException extends Exception {
-    public UsuarioNaoEncontradoException (String msg) {
+public class UsuarioNaoEncontradoException extends RuntimeException {
+    public UsuarioNaoEncontradoException(String msg) {
         super(msg);
     }
 }
