@@ -37,8 +37,7 @@ public class DAOUser {
         }
     }
 
-    public boolean deletarConta(User u) throws SQLException { // TODO: implementar a deleção da própria conta e no caso
-                                                              // de ADMs, contas de outros usuarios
+    public boolean deletarConta(User u) throws SQLException {
         String sql = "DELETE FROM usuario WHERE id = ?";
         try (Connection con = ConexaoBD.getConnection();
                 PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -49,8 +48,7 @@ public class DAOUser {
     }
 
     // Verificações são feitas apenas nos gerenciadores
-    public List<User> buscarPorUser(String text) throws SQLException { // TODO: apenas adms podem buscar ou listar
-                                                                       // usuarios
+    public List<User> buscarPorUser(String text) throws SQLException {
         String sql = """
                     SELECT id, email, username
                     WHERE email ILIKE ? OR username ILIKE ?
@@ -76,7 +74,7 @@ public class DAOUser {
         return users;
     }
 
-    public List<User> listarUsuarios() throws SQLException { // TODO: apenas adms podem buscar ou listar usuarios
+    public List<User> listarUsuarios() throws SQLException {
         String sql = "SELECT id, email, username FROM usuario ORDER BY username";
         List<User> users = new ArrayList<>();
         try (Connection con = ConexaoBD.getConnection();
@@ -93,8 +91,7 @@ public class DAOUser {
         return users;
     }
 
-    public User buscarPorId(String id) throws SQLException { // TODO: implementar, nesse caso, será usado apenas por
-                                                             // adms e pelo próprio sistema, no caso de deleção e edição
+    public User buscarPorId(String id) throws SQLException {
         String sql = "SELECT * FROM usuario WHERE id = ?";
         try (Connection con = ConexaoBD.getConnection();
                 PreparedStatement stmt = con.prepareStatement(sql)) {

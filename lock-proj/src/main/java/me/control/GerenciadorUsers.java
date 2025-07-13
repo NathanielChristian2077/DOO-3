@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.model.entidades.User;
 import me.model.enums.TipoUser;
+import me.model.exceptions.PermissaoNegadaException;
 import me.model.persistencia.DAOUser;
 
 public class GerenciadorUsers {
@@ -26,7 +27,7 @@ public class GerenciadorUsers {
 
     public void cadastrarUserAsADM(User solicitante,String email, String username, String senha, TipoUser tipo) throws SQLException {
         if (!solicitante.isAdmin()) {
-            throw new SecurityException("Usuários comuns não tem acesso a essa ação.");
+            throw new PermissaoNegadaException("Usuários comuns não tem acesso a essa ação.");
         }
         User novo = new User(email, username, senha, TipoUser.COMUM);
         daoUser.cadastrarUser(novo);
@@ -34,14 +35,14 @@ public class GerenciadorUsers {
 
     public List<User> listarUsuarios(User solicitante) throws SQLException {
         if (!solicitante.isAdmin()) {
-            throw new SecurityException("Usuários comuns não tem acesso a essa ação.");
+            throw new PermissaoNegadaException("Usuários comuns não tem acesso a essa ação.");
         }
         return daoUser.listarUsuarios();
     }
 
     public List<User> buscarPorUser(User solicitante, String text) throws SQLException {
         if (!solicitante.isAdmin()) {
-            throw new SecurityException("Usuários comuns não tem acesso a essa ação. Na realidade, você nem deveria estar aqui.");
+            throw new PermissaoNegadaException("Usuários comuns não tem acesso a essa ação. Na realidade, você nem deveria estar aqui.");
         }
         return daoUser.buscarPorUser(text);
     }

@@ -8,17 +8,29 @@ import java.util.UUID;
 import me.model.enums.Genero;
 import me.model.enums.Qualidade;
 
-public class Filme {                // No Banco de Dados:
-    private String id;              // UUID
-    private String nome;            // varchar(100)
-    private String descricao;       // varchar(2000)
-    private Duration duracao;       // INT (minutos), **Aqui esta em hh:mm:ss**
-    private BigDecimal preco;       // DECIMAL(3,2)
-    private Qualidade qualidade;    // Novo Type -> Qualidade
-    private Set<Genero> generos;    // Novo Type -> Genero
+public class Filme { // No Banco de Dados:
+    private String id; // UUID
+    private String nome; // varchar(100)
+    private String descricao; // varchar(2000)
+    private Duration duracao; // INT (minutos), **Aqui esta em hh:mm:ss**
+    private BigDecimal preco; // DECIMAL(3,2)
+    private Qualidade qualidade; // Novo Type -> Qualidade
+    private Set<Genero> generos; // Novo Type -> Genero
 
-    public Filme(String nome, String descricao, Duration duracao, BigDecimal preco, Qualidade qualidade, Set<Genero> generos) {
+    public Filme(String nome, String descricao, Duration duracao, BigDecimal preco, Qualidade qualidade,
+            Set<Genero> generos) {
         this.id = UUID.randomUUID().toString();
+        this.nome = nome;
+        this.descricao = descricao;
+        this.duracao = duracao;
+        this.preco = preco;
+        this.qualidade = qualidade;
+        this.generos = generos;
+    }
+
+    public Filme(String id, String nome, String descricao, Duration duracao, BigDecimal preco, Qualidade qualidade,
+            Set<Genero> generos) {
+        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.duracao = duracao;
