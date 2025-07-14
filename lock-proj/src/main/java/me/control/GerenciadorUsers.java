@@ -84,4 +84,27 @@ public class GerenciadorUsers {
         if (solicitante == null) throw new DadosInvalidosException("Usuário inválido.");
         return daoUser.listarFilmesAlugados(solicitante);
     }
+
+    public User autenticar(String login, String senha) {
+        if (login == null || senha == null || login.isBlank() || senha.isBlank()) {
+            throw new DadosInvalidosException("Login e senha são obrigatórios.");
+        }
+        
+        List<User> encontrados = daoUser.buscarPorUser(login);
+        if (encontrados.isEmpty()) {
+            throw new UsuarioNaoEncontradoException("Usuário não encontrado.");
+        }
+        for (User u : encontrados) {
+            if (u.getUsername().equalsIgnoreCase(login) || u.getEmail().equalsIgnoreCase(login)) {
+                // Aqui você deve buscar o usuário completo (com senha) pelo id
+                User completo = daoUser.buscarPorId(u.getId());
+                if (completo.getPassword().equals(senha)) {
+                    return completo;
+                } else {
+                    throw new DadosInvalidosException("Senha incorreta.");
+                }
+            }
+        }
+        throw new UsuarioNaoEncontradoException("Usuário não encontrado.");
+    }
 }
