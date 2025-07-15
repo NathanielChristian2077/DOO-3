@@ -4,7 +4,7 @@ public enum Qualidade {
     HD,
     FullHD,
     QHD,
-    K4;
+    ULTRAHD;
 
     @Override
     public String toString() {
@@ -12,7 +12,7 @@ public enum Qualidade {
             case HD: return "HD";
             case FullHD: return "FullHD";
             case QHD: return "QHD";
-            case K4: return "4K";
+            case ULTRAHD: return "4K";
             default: return "";
         }
     }

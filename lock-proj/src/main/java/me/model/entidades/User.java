@@ -10,7 +10,7 @@ public class User {                     // No Banco de Dados:
     private String email;               // varchar(100)
     private String username;            // varchar(50)
     private String password;            // varchar(512)
-    private TipoUser tipo;              // Novo Typre -> tipo
+    private TipoUser tipo;              // Novo Type -> tipo
     private LinkedList<Filme> locados;  // id (de cada filme)
     
     public User(String email, String username, String password, TipoUser tipo) {
@@ -26,6 +26,14 @@ public class User {                     // No Banco de Dados:
         this.id = id;
         this.email = email;
         this.username = username;
+    }
+
+    public User(String id, String email, String username, String password, TipoUser tipo) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.tipo = tipo;
     }
 
     public String getId() {

@@ -32,7 +32,7 @@ public class GerenciadorUsers {
         if (solicitante == null) {
             throw new DadosInvalidosException("Usuário inválido.");
         }
-        daoUser.editarUser(buscarPorId(solicitante.getId()));
+        daoUser.editarUser(solicitante);
     }
 
     public void deletarConta(User solicitante) {
@@ -115,7 +115,6 @@ public class GerenciadorUsers {
         }
         for (User u : encontrados) {
             if (u.getUsername().equalsIgnoreCase(login) || u.getEmail().equalsIgnoreCase(login)) {
-                // Aqui você deve buscar o usuário completo (com senha) pelo id
                 User completo = daoUser.buscarPorId(u.getId());
                 if (completo.getPassword().equals(senha)) {
                     return completo;

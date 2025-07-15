@@ -11,6 +11,7 @@ import java.util.UUID;
 import me.model.entidades.Filme;
 import me.model.entidades.User;
 import me.model.enums.Qualidade;
+import me.model.enums.TipoUser;
 import me.model.exceptions.*;
 
 public class DAOUser {
@@ -39,7 +40,8 @@ public class DAOUser {
                 stmt.setString(1, u.getEmail());
                 stmt.setString(2, u.getUsername());
                 stmt.setString(3, u.getPassword());
-                stmt.setObject(4, UUID.fromString(u.getId()));
+                stmt.setString(4, u.getTipo().name());
+                stmt.setObject(5, UUID.fromString(u.getId()));
                 int linhas = stmt.executeUpdate();
                 if (linhas == 0) throw new UsuarioNaoEncontradoException("Usuário não encontrado para edição.");
                 return true;
@@ -96,15 +98,20 @@ public class DAOUser {
     public List<User> listarUsuarios() {
         List<User> users = new ArrayList<>();
         try {
-            String sql = "SELECT id, email, username FROM usuario ORDER BY username";
+            String sql = "SELECT id, email, username, tipo FROM usuario ORDER BY username";
             try (Connection con = ConexaoBD.getConnection();
                  PreparedStatement stmt = con.prepareStatement(sql);
                  ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    String tipoStr = rs.getString("tipo");
+                    TipoUser tipo = tipoStr != null ? TipoUser.valueOf(tipoStr) : TipoUser.COMUM;
                     User u = new User(
                         rs.getString("id"),
                         rs.getString("email"),
-                        rs.getString("username"));
+                        rs.getString("username"),
+                        null,
+                        tipo
+                    );
                     users.add(u);
                 }
             }
@@ -122,10 +129,15 @@ public class DAOUser {
                 stmt.setObject(1, UUID.fromString(id));
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
+                        String tipoStr = rs.getString("tipo");
+                        TipoUser tipo = tipoStr != null ? TipoUser.valueOf(tipoStr) : TipoUser.COMUM; // fallback seguro
                         return new User(
                             rs.getString("id"),
                             rs.getString("email"),
-                            rs.getString("username"));
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            tipo
+                        );
                     }
                 }
             }
