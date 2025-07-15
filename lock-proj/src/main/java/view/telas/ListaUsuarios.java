@@ -9,15 +9,16 @@ package view.telas;
  *
  * @author ygorc
  */
-public class TelaCatalogo extends javax.swing.JInternalFrame {
+public class ListaUsuarios extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form TelaCatalogo
+     * Creates new form ListaUsuarios
      */
-    public TelaCatalogo() {
+    public ListaUsuarios() {
         initComponents();
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,17 +31,17 @@ public class TelaCatalogo extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setTitle("Catálogo de filmes disponíveis");
+        setTitle("Lista de Usuários");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Título", "Gênero", "Duração", "Qualidade", "Descrição", "Preço"
+                "ID", "Username", "E-mail", "Tipo"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -49,11 +50,11 @@ public class TelaCatalogo extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1104, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
         );
 
         pack();

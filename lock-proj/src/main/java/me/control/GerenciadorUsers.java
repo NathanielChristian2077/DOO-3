@@ -9,6 +9,9 @@ import me.model.exceptions.*;
 import me.model.persistencia.DAOUser;
 
 public class GerenciadorUsers {
+
+    public GerenciadorUsers() {
+    }
     private DAOUser daoUser = new DAOUser();
 
     public void cadastrarUserPublico(String email, String username, String senha) {
@@ -26,12 +29,16 @@ public class GerenciadorUsers {
     }
 
     public void editarUser(User solicitante) {
-        if (solicitante == null) throw new DadosInvalidosException("Usuário inválido.");
+        if (solicitante == null) {
+            throw new DadosInvalidosException("Usuário inválido.");
+        }
         daoUser.editarUser(buscarPorId(solicitante.getId()));
     }
 
     public void deletarConta(User solicitante) {
-        if (solicitante == null) throw new DadosInvalidosException("Usuário inválido.");
+        if (solicitante == null) {
+            throw new DadosInvalidosException("Usuário inválido.");
+        }
         daoUser.deletarConta(buscarPorId(solicitante.getId()));
     }
 
@@ -64,24 +71,36 @@ public class GerenciadorUsers {
     }
 
     public User buscarPorId(String id) {
-        if (id == null || id.isBlank()) throw new DadosInvalidosException("ID inválido.");
+        if (id == null || id.isBlank()) {
+            throw new DadosInvalidosException("ID inválido.");
+        }
         return daoUser.buscarPorId(id);
     }
 
     public boolean alugarFilme(User solicitante, Filme filme) {
-        if (solicitante == null) throw new DadosInvalidosException("Usuário inválido.");
-        if (filme == null) throw new DadosInvalidosException("Filme inválido.");
+        if (solicitante == null) {
+            throw new DadosInvalidosException("Usuário inválido.");
+        }
+        if (filme == null) {
+            throw new DadosInvalidosException("Filme inválido.");
+        }
         return daoUser.alugarFilme(solicitante, filme);
     }
 
     public boolean desalugarFilme(User solicitante, Filme filme) {
-        if (solicitante == null) throw new DadosInvalidosException("Usuário inválido.");
-        if (filme == null) throw new DadosInvalidosException("Filme inválido.");
+        if (solicitante == null) {
+            throw new DadosInvalidosException("Usuário inválido.");
+        }
+        if (filme == null) {
+            throw new DadosInvalidosException("Filme inválido.");
+        }
         return daoUser.desalugarFilme(solicitante, filme);
     }
 
     public List<Filme> listarFilmesAlugados(User solicitante) {
-        if (solicitante == null) throw new DadosInvalidosException("Usuário inválido.");
+        if (solicitante == null) {
+            throw new DadosInvalidosException("Usuário inválido.");
+        }
         return daoUser.listarFilmesAlugados(solicitante);
     }
 
@@ -89,7 +108,7 @@ public class GerenciadorUsers {
         if (login == null || senha == null || login.isBlank() || senha.isBlank()) {
             throw new DadosInvalidosException("Login e senha são obrigatórios.");
         }
-        
+
         List<User> encontrados = daoUser.buscarPorUser(login);
         if (encontrados.isEmpty()) {
             throw new UsuarioNaoEncontradoException("Usuário não encontrado.");
