@@ -727,6 +727,8 @@ public class TelaAdmin extends JInternalFrame {
         JScrollPane scrollDescricao = new JScrollPane(campoDescricao);
         scrollDescricao.setBorder(BorderFactory.createEmptyBorder());
         scrollDescricao.getViewport().setBackground(panelColor);
+        scrollDescricao.setPreferredSize(new Dimension(220, 60));
+        scrollDescricao.setMinimumSize(new Dimension(220, 60));
 
         JTextField campoDuracao = criarCampoDialog(panelColor, labelColor, borderColor);
         campoDuracao.setText(String.valueOf(filme.getDuracao().toMinutes()));
@@ -744,22 +746,26 @@ public class TelaAdmin extends JInternalFrame {
         comboQualidade.setBorder(BorderFactory.createEmptyBorder());
         comboQualidade.setSelectedIndex(filme.getQualidade().ordinal());
 
-        me.model.enums.Genero[] generos = me.model.enums.Genero.values();
         DefaultListModel<String> modeloGeneros = new DefaultListModel<>();
         for (me.model.enums.Genero g : me.model.enums.Genero.values()) {
             modeloGeneros.addElement(g.name());
         }
         JList<String> listaGeneros = new JList<>(modeloGeneros);
         listaGeneros.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        listaGeneros.setVisibleRowCount(Math.min(generos.length, 6));
+        listaGeneros.setVisibleRowCount(Math.min(me.model.enums.Genero.values().length, 6));
         listaGeneros.setBackground(panelColor);
         listaGeneros.setForeground(labelColor);
         listaGeneros.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         JScrollPane scrollGeneros = new JScrollPane(listaGeneros);
         scrollGeneros.setBorder(BorderFactory.createEmptyBorder());
         scrollGeneros.getViewport().setBackground(panelColor);
+        scrollGeneros.setPreferredSize(new Dimension(220, 80));
+        scrollGeneros.setMinimumSize(new Dimension(220, 80));
 
-        List<String> generosFilme = filme.getGeneros().stream().map(Enum::name).collect(Collectors.toList());
+        // Seleciona os gêneros do filme atual
+        List<String> generosFilme = filme.getGeneros().stream()
+            .map(Enum::name)
+            .collect(Collectors.toList());
         int[] indices = generosFilme.stream()
             .mapToInt(s -> modeloGeneros.indexOf(s))
             .filter(i -> i >= 0)
@@ -821,7 +827,13 @@ public class TelaAdmin extends JInternalFrame {
         btnOk.addActionListener(e -> {
             try {
                 List<me.model.enums.Genero> generosSelecionadosEdit = listaGeneros.getSelectedValuesList().stream()
-                    .map(me.model.enums.Genero::valueOf)
+                    .map(str -> {
+                        for (me.model.enums.Genero g : me.model.enums.Genero.values()) {
+                            if (g.toString().equals(str)) return g;
+                        }
+                        return null;
+                    })
+                    .filter(java.util.Objects::nonNull)
                     .collect(Collectors.toList());
                 Filme editado = new Filme(
                     filme.getId(),

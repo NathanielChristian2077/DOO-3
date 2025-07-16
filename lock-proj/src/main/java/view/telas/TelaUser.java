@@ -45,8 +45,10 @@ public class TelaUser extends JInternalFrame {
         JPanel painelCentralizador = new JPanel(new GridBagLayout());
         painelCentralizador.setBackground(bgColor);
         GridBagConstraints gbcCentral = new GridBagConstraints();
-        gbcCentral.gridx = 0; gbcCentral.gridy = 0;
-        gbcCentral.weightx = 1.0; gbcCentral.weighty = 1.0;
+        gbcCentral.gridx = 0;
+        gbcCentral.gridy = 0;
+        gbcCentral.weightx = 1.0;
+        gbcCentral.weighty = 1.0;
         gbcCentral.anchor = GridBagConstraints.CENTER;
         gbcCentral.fill = GridBagConstraints.BOTH;
 
@@ -90,8 +92,8 @@ public class TelaUser extends JInternalFrame {
         abas.setBorder(BorderFactory.createEmptyBorder());
         abas.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
-            protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-                // Não preenche o fundo da aba selecionada, só desenha a borda
+            protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h,
+                    boolean isSelected) {
                 if (isSelected) {
                     Graphics2D g2 = (Graphics2D) g.create();
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -101,11 +103,14 @@ public class TelaUser extends JInternalFrame {
                     g2.dispose();
                 }
             }
+
             @Override
-            protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {}
+            protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+            }
+
             @Override
-            protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-                // Remove borda padrão
+            protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h,
+                    boolean isSelected) {
             }
         });
 
@@ -118,9 +123,17 @@ public class TelaUser extends JInternalFrame {
         campoBuscaFilme = criarCampoBusca(panelColor, btnColor, "Buscar filme por nome...");
         campoBuscaFilme.setToolTipText("Buscar filme por nome...");
         campoBuscaFilme.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrarFilmes(); }
-            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrarFilmes(); }
-            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrarFilmes(); }
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarFilmes();
+            }
+
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarFilmes();
+            }
+
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarFilmes();
+            }
         });
         painelBusca.add(criarLabelBranca("Buscar:"));
         painelBusca.add(campoBuscaFilme);
@@ -128,7 +141,7 @@ public class TelaUser extends JInternalFrame {
         comboGenero = new JComboBox<>();
         comboGenero.addItem("Todos");
         for (me.model.enums.Genero g : me.model.enums.Genero.values()) {
-            comboGenero.addItem(g.name()); // Use name() para o valor interno
+            comboGenero.addItem(g.name());
         }
         comboGenero.setBackground(panelColor);
         comboGenero.setForeground(labelColor);
@@ -138,7 +151,7 @@ public class TelaUser extends JInternalFrame {
         painelBusca.add(criarLabelBranca("Gênero:"));
         painelBusca.add(comboGenero);
 
-        comboOrdenar = new JComboBox<>(new String[]{"Nome", "Preço", "Qualidade"});
+        comboOrdenar = new JComboBox<>(new String[] { "Nome", "Preço", "Qualidade" });
         comboOrdenar.setBackground(panelColor);
         comboOrdenar.setForeground(labelColor);
         comboOrdenar.setFont(new Font("Segoe UI", Font.BOLD, 15));
@@ -147,16 +160,19 @@ public class TelaUser extends JInternalFrame {
         painelBusca.add(criarLabelBranca("Ordenar por:"));
         painelBusca.add(comboOrdenar);
 
-        JButton btnAlugar = criarBotaoPreenchido("Alugar Filme Selecionado", btnColor, btnHover, Color.WHITE, btnBorder);
+        JButton btnAlugar = criarBotaoPreenchido("Alugar Filme Selecionado", btnColor, btnHover, Color.WHITE,
+                btnBorder);
         btnAlugar.setFont(btnAlugar.getFont().deriveFont(Font.BOLD, 14f));
         btnAlugar.addActionListener(e -> alugarFilmeSelecionado());
         painelBusca.add(btnAlugar);
 
         painelFilmes.add(painelBusca, BorderLayout.NORTH);
 
-        modeloFilmes = new DefaultTableModel(new Object[]{"Nome", "Gêneros", "Preço", "Qualidade"}, 0) {
+        modeloFilmes = new DefaultTableModel(new Object[] { "Nome", "Gêneros", "Preço", "Qualidade" }, 0) {
             @Override
-            public boolean isCellEditable(int row, int column) { return false; }
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         };
         tabelaFilmes = new JTable(modeloFilmes);
         estilizarTabela(tabelaFilmes, panelColor, labelColor, borderColor);
@@ -166,7 +182,7 @@ public class TelaUser extends JInternalFrame {
                 if (e.getClickCount() == 2 && tabelaFilmes.getSelectedRow() != -1) {
                     String nome = (String) modeloFilmes.getValueAt(tabelaFilmes.getSelectedRow(), 0);
                     Filme filme = gerenciadorFilmes.listarFilmes().stream()
-                        .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
+                            .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
                     if (filme != null) {
                         JInternalFrame tela = new TelaFilme(filme);
                         ((JDesktopPane) TelaUser.this.getParent()).add(tela);
@@ -189,7 +205,7 @@ public class TelaUser extends JInternalFrame {
 
         JPanel painelAlugados = new JPanel(new BorderLayout());
         painelAlugados.setOpaque(false);
-        modeloAlugados = new DefaultTableModel(new Object[]{"Nome", "Gêneros", "Preço", "Qualidade"}, 0) {
+        modeloAlugados = new DefaultTableModel(new Object[] { "Nome", "Gêneros", "Preço", "Qualidade" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -203,7 +219,7 @@ public class TelaUser extends JInternalFrame {
                 if (e.getClickCount() == 2 && tabelaAlugados.getSelectedRow() != -1) {
                     String nome = (String) modeloAlugados.getValueAt(tabelaAlugados.getSelectedRow(), 0);
                     Filme filme = gerenciadorUsers.listarFilmesAlugados(user).stream()
-                        .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
+                            .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
                     if (filme != null) {
                         JInternalFrame tela = new TelaFilme(filme);
                         ((JDesktopPane) TelaUser.this.getParent()).add(tela);
@@ -213,7 +229,8 @@ public class TelaUser extends JInternalFrame {
             }
         });
 
-        JButton btnDesalugar = criarBotaoPreenchido("Devolver Filme Selecionado", btnColor, btnHover, Color.WHITE, btnBorder);
+        JButton btnDesalugar = criarBotaoPreenchido("Devolver Filme Selecionado", btnColor, btnHover, Color.WHITE,
+                btnBorder);
         btnDesalugar.addActionListener(e -> desalugarFilmeSelecionado());
 
         JScrollPane scrollAlugados = new JScrollPane(tabelaAlugados);
@@ -274,6 +291,7 @@ public class TelaUser extends JInternalFrame {
     private JButton criarBotaoPreenchido(String texto, Color bg, Color hover, Color fg, Color border) {
         JButton btn = new JButton(texto) {
             private boolean hoverState = false;
+
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -286,6 +304,7 @@ public class TelaUser extends JInternalFrame {
                 g2.dispose();
                 super.paintComponent(g);
             }
+
             {
                 addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
@@ -294,6 +313,7 @@ public class TelaUser extends JInternalFrame {
                         hoverState = true;
                         repaint();
                     }
+
                     @Override
                     public void mouseExited(java.awt.event.MouseEvent e) {
                         setForeground(Color.WHITE);
@@ -320,7 +340,7 @@ public class TelaUser extends JInternalFrame {
         tabela.setForeground(fg);
         tabela.setSelectionBackground(new Color(60, 179, 113, 180));
         tabela.setSelectionForeground(Color.WHITE);
-        tabela.setGridColor(new Color(0,0,0,0));
+        tabela.setGridColor(new Color(0, 0, 0, 0));
         tabela.setRowHeight(28);
 
         JTableHeader header = tabela.getTableHeader();
@@ -332,7 +352,8 @@ public class TelaUser extends JInternalFrame {
 
         tabela.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 c.setBackground(isSelected ? table.getSelectionBackground() : (row % 2 == 0 ? bg : borderColor));
                 c.setForeground(fg);
@@ -350,9 +371,11 @@ public class TelaUser extends JInternalFrame {
 
     private static class PromptTextField extends JTextField {
         private final String prompt;
+
         public PromptTextField(String prompt) {
             this.prompt = prompt;
         }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -370,11 +393,11 @@ public class TelaUser extends JInternalFrame {
         modeloFilmes.setRowCount(0);
         List<Filme> filmes = gerenciadorFilmes.listarFilmes();
         for (Filme f : filmes) {
-            modeloFilmes.addRow(new Object[]{
-                f.getNome(),
-                generosToStringAmigavel(f.getGeneros()),
-                f.getPreco(),
-                f.getQualidade()
+            modeloFilmes.addRow(new Object[] {
+                    f.getNome(),
+                    generosToStringAmigavel(f.getGeneros()),
+                    f.getPreco(),
+                    f.getQualidade()
             });
         }
     }
@@ -385,15 +408,15 @@ public class TelaUser extends JInternalFrame {
         modeloFilmes.setRowCount(0);
         List<Filme> filmes = gerenciadorFilmes.listarFilmes();
         List<Filme> filtrados = filmes.stream()
-            .filter(f -> f.getNome().toLowerCase().contains(filtro))
-            .filter(f -> genero.equals("Todos") || f.getGeneros().stream().anyMatch(g -> g.name().equals(genero)))
-            .collect(Collectors.toList());
+                .filter(f -> f.getNome().toLowerCase().contains(filtro))
+                .filter(f -> genero.equals("Todos") || f.getGeneros().stream().anyMatch(g -> g.name().equals(genero)))
+                .collect(Collectors.toList());
         for (Filme f : filtrados) {
-            modeloFilmes.addRow(new Object[]{
-                f.getNome(),
-                generosToStringAmigavel(f.getGeneros()),
-                f.getPreco(),
-                f.getQualidade()
+            modeloFilmes.addRow(new Object[] {
+                    f.getNome(),
+                    generosToStringAmigavel(f.getGeneros()),
+                    f.getPreco(),
+                    f.getQualidade()
             });
         }
     }
@@ -402,19 +425,22 @@ public class TelaUser extends JInternalFrame {
         String criterio = (String) comboOrdenar.getSelectedItem();
         List<Filme> filmes = gerenciadorFilmes.listarFilmes();
         if ("Preço".equals(criterio)) {
-            filmes = filmes.stream().sorted((a, b) -> a.getPreco().compareTo(b.getPreco())).collect(Collectors.toList());
+            filmes = filmes.stream().sorted((a, b) -> a.getPreco().compareTo(b.getPreco()))
+                    .collect(Collectors.toList());
         } else if ("Qualidade".equals(criterio)) {
-            filmes = filmes.stream().sorted((a, b) -> a.getQualidade().compareTo(b.getQualidade())).collect(Collectors.toList());
+            filmes = filmes.stream().sorted((a, b) -> a.getQualidade().compareTo(b.getQualidade()))
+                    .collect(Collectors.toList());
         } else {
-            filmes = filmes.stream().sorted((a, b) -> a.getNome().compareToIgnoreCase(b.getNome())).collect(Collectors.toList());
+            filmes = filmes.stream().sorted((a, b) -> a.getNome().compareToIgnoreCase(b.getNome()))
+                    .collect(Collectors.toList());
         }
         modeloFilmes.setRowCount(0);
         for (Filme f : filmes) {
-            modeloFilmes.addRow(new Object[]{
-                f.getNome(),
-                generosToStringAmigavel(f.getGeneros()),
-                f.getPreco(),
-                f.getQualidade()
+            modeloFilmes.addRow(new Object[] {
+                    f.getNome(),
+                    generosToStringAmigavel(f.getGeneros()),
+                    f.getPreco(),
+                    f.getQualidade()
             });
         }
     }
@@ -427,7 +453,7 @@ public class TelaUser extends JInternalFrame {
         }
         String nome = (String) modeloFilmes.getValueAt(row, 0);
         Filme filme = gerenciadorFilmes.listarFilmes().stream()
-            .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
+                .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
 
         List<Filme> alugados = gerenciadorUsers.listarFilmesAlugados(user);
         boolean jaAlugado = alugados.stream().anyMatch(f -> f.getId().equals(filme.getId()));
@@ -447,11 +473,11 @@ public class TelaUser extends JInternalFrame {
         modeloAlugados.setRowCount(0);
         List<Filme> alugados = gerenciadorUsers.listarFilmesAlugados(user);
         for (Filme f : alugados) {
-            modeloAlugados.addRow(new Object[]{
-                f.getNome(),
-                generosToStringAmigavel(f.getGeneros()),
-                f.getPreco(),
-                f.getQualidade()
+            modeloAlugados.addRow(new Object[] {
+                    f.getNome(),
+                    generosToStringAmigavel(f.getGeneros()),
+                    f.getPreco(),
+                    f.getQualidade()
             });
         }
     }
@@ -464,7 +490,7 @@ public class TelaUser extends JInternalFrame {
         }
         String nome = (String) modeloAlugados.getValueAt(row, 0);
         Filme filme = gerenciadorUsers.listarFilmesAlugados(user).stream()
-            .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
+                .filter(f -> f.getNome().equals(nome)).findFirst().orElse(null);
         if (filme != null) {
             gerenciadorUsers.desalugarFilme(user, filme);
             mostrarFilmesAlugados();
@@ -492,12 +518,23 @@ public class TelaUser extends JInternalFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridy = 0;
+
+        int fieldWidth = 320;
+        int fieldHeight = 38;
 
         JTextField campoEmail = criarCampoBusca(panelColor, btnColor, "");
         campoEmail.setText(user.getEmail());
+        campoEmail.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
+        campoEmail.setMinimumSize(new Dimension(fieldWidth, fieldHeight));
+        campoEmail.setMaximumSize(new Dimension(fieldWidth, fieldHeight));
+
         JTextField campoUsername = criarCampoBusca(panelColor, btnColor, "");
         campoUsername.setText(user.getUsername());
+        campoUsername.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
+        campoUsername.setMinimumSize(new Dimension(fieldWidth, fieldHeight));
+        campoUsername.setMaximumSize(new Dimension(fieldWidth, fieldHeight));
+
         JPasswordField campoSenhaAtual = new JPasswordField();
         campoSenhaAtual.setBackground(panelColor);
         campoSenhaAtual.setForeground(labelColor);
@@ -505,6 +542,10 @@ public class TelaUser extends JInternalFrame {
         campoSenhaAtual.setBorder(BorderFactory.createLineBorder(borderColor, 2, false));
         campoSenhaAtual.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         campoSenhaAtual.setOpaque(true);
+        campoSenhaAtual.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
+        campoSenhaAtual.setMinimumSize(new Dimension(fieldWidth, fieldHeight));
+        campoSenhaAtual.setMaximumSize(new Dimension(fieldWidth, fieldHeight));
+
         JPasswordField campoNovaSenha = new JPasswordField();
         campoNovaSenha.setBackground(panelColor);
         campoNovaSenha.setForeground(labelColor);
@@ -512,21 +553,36 @@ public class TelaUser extends JInternalFrame {
         campoNovaSenha.setBorder(BorderFactory.createLineBorder(borderColor, 2, false));
         campoNovaSenha.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         campoNovaSenha.setOpaque(true);
+        campoNovaSenha.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
+        campoNovaSenha.setMinimumSize(new Dimension(fieldWidth, fieldHeight));
+        campoNovaSenha.setMaximumSize(new Dimension(fieldWidth, fieldHeight));
 
+        gbc.gridx = 0;
+        gbc.weightx = 0;
         painel.add(criarLabelBranca("Novo Email:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         painel.add(campoEmail, gbc);
-        gbc.gridx = 0; gbc.gridy++;
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.weightx = 0;
         painel.add(criarLabelBranca("Novo Username:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         painel.add(campoUsername, gbc);
-        gbc.gridx = 0; gbc.gridy++;
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.weightx = 0;
         painel.add(criarLabelBranca("Senha Atual:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         painel.add(campoSenhaAtual, gbc);
-        gbc.gridx = 0; gbc.gridy++;
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.weightx = 0;
         painel.add(criarLabelBranca("Nova Senha (opcional):"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         painel.add(campoNovaSenha, gbc);
 
         JButton btnOk = criarBotaoPreenchido("OK", btnColor, btnHover, Color.WHITE, btnBorder);
@@ -560,7 +616,7 @@ public class TelaUser extends JInternalFrame {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Editar Dados", true);
         dialog.setUndecorated(true);
         dialog.setContentPane(painelDialog);
-        dialog.setSize(420, 320);
+        dialog.setSize(520, 340);
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(this);
 
