@@ -17,7 +17,6 @@ public class TelaLogin extends JFrame {
         setMinimumSize(new Dimension(420, 260));
         setLocationRelativeTo(null);
 
-        // Paleta escura inspirada
         Color bgColor = new Color(24, 32, 48);
         Color panelColor = new Color(34, 45, 65);
         Color borderColor = new Color(44, 62, 80);
@@ -25,7 +24,6 @@ public class TelaLogin extends JFrame {
         Color btnColor = new Color(60, 179, 113);
         Color btnHover = new Color(80, 200, 140);
 
-        // Utilitário para borda arredondada
         class RoundedBorder extends javax.swing.border.AbstractBorder {
             private final int radius;
             private final Color color;
@@ -105,7 +103,6 @@ public class TelaLogin extends JFrame {
             }
         });
 
-        // Painel central com GridBagLayout para responsividade
         JPanel painelCampos = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -122,8 +119,8 @@ public class TelaLogin extends JFrame {
             }
         };
         painelCampos.setOpaque(false);
-        painelCampos.setPreferredSize(new Dimension(440, 220)); // Aumenta o painel
-        painelCampos.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Mais espaço interno
+        painelCampos.setPreferredSize(new Dimension(440, 220));
+        painelCampos.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(12, 12, 12, 12);
@@ -132,19 +129,18 @@ public class TelaLogin extends JFrame {
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.3; gbc.anchor = GridBagConstraints.EAST;
         painelCampos.add(lblLogin, gbc);
         gbc.gridx = 1; gbc.gridy = 0; gbc.weightx = 0.7;
-        campoLogin.setPreferredSize(new Dimension(220, 36)); // Campo maior
+        campoLogin.setPreferredSize(new Dimension(220, 36));
         painelCampos.add(campoLogin, gbc);
 
         gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.3;
         painelCampos.add(lblSenha, gbc);
         gbc.gridx = 1; gbc.gridy = 1; gbc.weightx = 0.7;
-        campoSenha.setPreferredSize(new Dimension(220, 36)); // Campo maior
+        campoSenha.setPreferredSize(new Dimension(220, 36));
         painelCampos.add(campoSenha, gbc);
 
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2; gbc.weightx = 1.0; gbc.weighty = 0.1; gbc.anchor = GridBagConstraints.CENTER;
         painelCampos.add(btnEntrar, gbc);
 
-        // Painel centralizador para manter o painelCampos sempre centralizado e proporcional
         JPanel painelCentralizador = new JPanel(new GridBagLayout());
         painelCentralizador.setBackground(bgColor);
         GridBagConstraints gbcCentral = new GridBagConstraints();
@@ -158,7 +154,7 @@ public class TelaLogin extends JFrame {
         getContentPane().setBackground(bgColor);
         pack();
         setMinimumSize(new Dimension(420, 260));
-        setSize(480, 320); // Tamanho inicial maior
+        setSize(480, 320);
     }
 
     private void autenticar() {

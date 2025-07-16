@@ -15,8 +15,39 @@ public class TelaPrincipal extends JFrame {
         setMinimumSize(new Dimension(900, 600));
         setLocationRelativeTo(null);
 
-        desktop = new JDesktopPane();
-        setContentPane(desktop);
+        Color bgColor = new Color(24, 32, 48);
+        Color panelColor = new Color(34, 45, 65);
+        Color borderColor = new Color(44, 62, 80);
+
+        desktop = new JDesktopPane() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                int arc = 32;
+                int margin = 10;
+                g2.setColor(panelColor);
+                g2.fillRoundRect(margin, margin, getWidth() - 2 * margin, getHeight() - 2 * margin, arc, arc);
+                g2.setColor(borderColor);
+                g2.drawRoundRect(margin, margin, getWidth() - 2 * margin, getHeight() - 2 * margin, arc, arc);
+                g2.dispose();
+            }
+        };
+        desktop.setOpaque(false);
+
+        JPanel painelCentralizador = new JPanel(new GridBagLayout());
+        painelCentralizador.setBackground(bgColor);
+        GridBagConstraints gbcCentral = new GridBagConstraints();
+        gbcCentral.gridx = 0; gbcCentral.gridy = 0;
+        gbcCentral.weightx = 1.0; gbcCentral.weighty = 1.0;
+        gbcCentral.anchor = GridBagConstraints.CENTER;
+        gbcCentral.fill = GridBagConstraints.BOTH;
+        desktop.setPreferredSize(new Dimension(860, 540));
+        painelCentralizador.add(desktop, gbcCentral);
+
+        setContentPane(painelCentralizador);
+        getContentPane().setBackground(bgColor);
 
         abrirTelaInicial();
         criarMenu();

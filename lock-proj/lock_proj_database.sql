@@ -15,7 +15,7 @@ DO $$ BEGIN
     END IF;
 
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'qualidade') THEN
-        CREATE TYPE qualidade AS ENUM ('HD', 'FullHD', 'QHD', 'K4');
+        CREATE TYPE qualidade AS ENUM ('HD', 'FullHD', 'QHD', 'ULTRAHD');
     END IF;
 END $$;
 
@@ -50,4 +50,3 @@ CREATE TABLE IF NOT EXISTS usuario_filme (
 -- ADM padronizado para possibilitar a inclusão de outros users como adms
 INSERT INTO usuario (id, email, username, password, tipo)
 VALUES ('00000000-0000-0000-0000-000000000001', 'admin@padrao.com', 'admin', '*****', 'ADMIN')
-ON CONFLICT (username) DO NOTHING;
